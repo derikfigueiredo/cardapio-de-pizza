@@ -20,7 +20,7 @@ header {
     right:0;
     height:60px;
     background-color:#399ade;
-    display:none;
+    display: none;
     justify-content: flex-end;
     align-items: center;
 }
