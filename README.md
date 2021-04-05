@@ -1,4 +1,3 @@
-Testando o readme
-
+Projeto com o nome compra de pizzas.
 
 
