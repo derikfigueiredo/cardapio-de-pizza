@@ -2,7 +2,7 @@
   
 <hr>  
   
-<h2>:scroll: Sobre<h2>
+## :scroll: Sobre
   
 Construído apenas para meus estudos em JavaScript, trata-se de um cardápio de um site de pizzaria com um sistema de carrinho funcional, desenvolvido com HTML, CSS e JavaScript.
  
