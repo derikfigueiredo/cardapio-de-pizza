@@ -7,6 +7,7 @@ const c = (el)=>document.querySelector(el); //arrow function, tiramos o {} para 
 
 const cs = (el)=>document.querySelectorAll(el);
 
+
 //o paramentro item foi criado para receber cada item do array pizzaJson, já o paramentro index foi criado para receber os índices do array
 
 pizzaJson.map((item, index) => {
@@ -33,12 +34,12 @@ pizzaJson.map((item, index) => {
         c('.pizzaInfo--desc').innerHTML = pizzaJson[key].description;
         c('.pizzaInfo--actualPrice').innerHTML = `R$ ${pizzaJson[key].price.toFixed(2)}`;
         c('.pizzaInfo--size.selected').classList.remove('selected');
-        document.querySelectorAll('.pizzaInfo--size').forEach((size, sizeIndex) => {
+        cs('.pizzaInfo--size').forEach((size, sizeIndex) => {
             if(sizeIndex == 2) {
                 size.classList.add('selected');
             }
             size.querySelector('span').innerHTML = pizzaJson[key].sizes[sizeIndex];
-        })
+        });
 
         c('.pizzaInfo--qt').innerHTML = modalQt;
 
@@ -66,3 +67,33 @@ function closeModal() {
 
     cs('.pizzaInfo--cancelButton, .pizzaInfo--cancelMobileButton').forEach((item)=> { item.addEventListener('click', closeModal) 
     });
+
+
+
+/////COLOCAR OS BOTÕES DE + E DE - PARA FUNCIONAR////////
+
+c('.pizzaInfo--qtmenos').addEventListener('click', ()=> {
+    if (modalQt > 1) {
+        modalQt--;}
+        c('.pizzaInfo--qt').innerHTML = modalQt;
+});
+
+c('.pizzaInfo--qtmais').addEventListener('click', ()=> {
+    modalQt++;
+    c('.pizzaInfo--qt').innerHTML = modalQt;
+});
+//////////////////////////////////////////////////////////
+
+
+///////////BOTÕES PEQUENA, MÉDIA E GRANDE ///////////////////
+cs('.pizzaInfo--size').forEach((size, sizeIndex) => {
+    size.addEventListener('click', () => {
+        c('.pizzaInfo--size.selected').classList.remove('selected');
+        size.classList.add('selected')
+    })
+});
+//Por que se eu tivesse colocado size  e.target.classList.add('selected') teria dado errado? Se o usuário clicar bem no span, a classe selected é passada para ele também porque o argumento e é tanto o .pizzaInfo--size quanto o span(span fica dentro do .pizzaInfo--size).
+////////////////////////////////////////////////////////////
+
+
+
