@@ -1,6 +1,8 @@
 
 //Vamos mapear a lista pizzaJson, fazer uma copia do modelo de lista de pizza(pizza-item) e preencher esses dados e jogar na tela
 
+let modalQt = 1;
+
 const c = (el)=>document.querySelector(el); //arrow function, tiramos o {} para que dispensar o uso do return
 
 const cs = (el)=>document.querySelectorAll(el);
@@ -24,9 +26,21 @@ pizzaJson.map((item, index) => {
         let key = e.target.closest('.pizza-item').getAttribute('data-key'); //Target: referência ao objeto que enviou o evento*a*
         //Closest irá procurar o elemento com a classes .pizza-item mais próximo do elemento a.
 
+        modalQt = 1; //resetar o modalQt toda vez que o pizza window for aberto.
+
         c('.pizzaBig img').src = pizzaJson[key].img;
         c('.pizzaInfo h1').innerHTML = pizzaJson[key].name;
         c('.pizzaInfo--desc').innerHTML = pizzaJson[key].description;
+        c('.pizzaInfo--actualPrice').innerHTML = `R$ ${pizzaJson[key].price.toFixed(2)}`;
+        c('.pizzaInfo--size.selected').classList.remove('selected');
+        document.querySelectorAll('.pizzaInfo--size').forEach((size, sizeIndex) => {
+            if(sizeIndex == 2) {
+                size.classList.add('selected');
+            }
+            size.querySelector('span').innerHTML = pizzaJson[key].sizes[sizeIndex];
+        })
+
+        c('.pizzaInfo--qt').innerHTML = modalQt;
 
         c('.pizzaWindowArea').style.display = 'flex';
         c('.pizzaWindowArea').style.opacity = '0';
@@ -40,3 +54,15 @@ pizzaJson.map((item, index) => {
     
 });
 
+
+//Eventos do MODAL 
+function closeModal() {
+    c('.pizzaWindowArea').style.opacity = "0";
+    
+    setTimeout(() => {
+        c('.pizzaWindowArea').style.display = 'none';
+    }, 500)
+}
+
+    cs('.pizzaInfo--cancelButton, .pizzaInfo--cancelMobileButton').forEach((item)=> { item.addEventListener('click', closeModal) 
+    });
