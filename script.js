@@ -1,7 +1,7 @@
 let cart = [];
 let modalKey;
 let modalQt = 1;
-let sizePizza;
+let pizzaItem = [];
 
 const c = (el)=>document.querySelector(el); //arrow function, tiramos o {} para que dispensar o uso do return
 
@@ -99,12 +99,9 @@ cs('.pizzaInfo--size').forEach((size, sizeIndex) => {
 
 /////////////////CARRINHO////////////////////////////
 c('.pizzaInfo--addButton').addEventListener('click', ()=>{
-
-    sizePizza = parseInt(c('.pizzaInfo--size.selected').getAttribute('data-key'));
-
+    let sizePizza = parseInt(c('.pizzaInfo--size.selected').getAttribute('data-key'));
     let identifier = `${pizzaJson[modalKey].id}@${sizePizza}`;
-
-    key = cart.findIndex((item)=>item.identifier == identifier);
+    let key = cart.findIndex((item)=>item.identifier == identifier);
 
     if (key > -1) {
         cart[key].qt += modalQt;
@@ -116,5 +113,26 @@ c('.pizzaInfo--addButton').addEventListener('click', ()=>{
         qt:modalQt
     })};
 
+    updateCart()
     closeModal();
 });
+/////////////////////////////////////////////////////////////////
+
+//////////////////////UPDATECART///////////////////////////////
+function updateCart() {
+    if (cart.length > 0) {
+    c('aside').classList.add('show');
+        for(let i in cart) {
+             pizzaItem = pizzaJson.find((item)=>item.id == cart[i].id);
+
+             console.log(pizzaItem)
+        }
+
+    } else {
+        c('aside').classList.remove('show')
+    }
+}
+/////////////////////////////////////////////////////////////
+
+
+
