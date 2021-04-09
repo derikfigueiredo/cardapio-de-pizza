@@ -1,13 +1,14 @@
-
-//Vamos mapear a lista pizzaJson, fazer uma copia do modelo de lista de pizza(pizza-item) e preencher esses dados e jogar na tela
-
+let cart = [];
+let modalKey;
 let modalQt = 1;
+let sizePizza;
 
 const c = (el)=>document.querySelector(el); //arrow function, tiramos o {} para que dispensar o uso do return
 
 const cs = (el)=>document.querySelectorAll(el);
 
 
+//Vamos mapear a lista pizzaJson, fazer uma copia do modelo de lista de pizza(pizza-item) e preencher esses dados e jogar na tela
 //o paramentro item foi criado para receber cada item do array pizzaJson, já o paramentro index foi criado para receber os índices do array
 
 pizzaJson.map((item, index) => {
@@ -27,6 +28,7 @@ pizzaJson.map((item, index) => {
         let key = e.target.closest('.pizza-item').getAttribute('data-key'); //Target: referência ao objeto que enviou o evento*a*
         //Closest irá procurar o elemento com a classes .pizza-item mais próximo do elemento a.
 
+        modalKey = key;
         modalQt = 1; //resetar o modalQt toda vez que o pizza window for aberto.
 
         c('.pizzaBig img').src = pizzaJson[key].img;
@@ -56,7 +58,7 @@ pizzaJson.map((item, index) => {
 });
 
 
-//Eventos do MODAL 
+///////////////ADD AÇÃO DE CLICK PARA FECHAR MODAL///////////////////
 function closeModal() {
     c('.pizzaWindowArea').style.opacity = "0";
     
@@ -67,11 +69,10 @@ function closeModal() {
 
     cs('.pizzaInfo--cancelButton, .pizzaInfo--cancelMobileButton').forEach((item)=> { item.addEventListener('click', closeModal) 
     });
+////////////////////////////////////////////////////////////
 
 
-
-/////COLOCAR OS BOTÕES DE + E DE - PARA FUNCIONAR////////
-
+/////ADD AÇÃO DE CLICK NOS BOTÕES DE + E DE - ////////
 c('.pizzaInfo--qtmenos').addEventListener('click', ()=> {
     if (modalQt > 1) {
         modalQt--;}
@@ -85,7 +86,7 @@ c('.pizzaInfo--qtmais').addEventListener('click', ()=> {
 //////////////////////////////////////////////////////////
 
 
-///////////BOTÕES PEQUENA, MÉDIA E GRANDE ///////////////////
+///////////ADD AÇÃO DE CLICK NOS BOTÕES PEQUENA, MÉDIA E GRANDE ///////////////////
 cs('.pizzaInfo--size').forEach((size, sizeIndex) => {
     size.addEventListener('click', () => {
         c('.pizzaInfo--size.selected').classList.remove('selected');
@@ -96,4 +97,24 @@ cs('.pizzaInfo--size').forEach((size, sizeIndex) => {
 ////////////////////////////////////////////////////////////
 
 
+/////////////////CARRINHO////////////////////////////
+c('.pizzaInfo--addButton').addEventListener('click', ()=>{
 
+    sizePizza = parseInt(c('.pizzaInfo--size.selected').getAttribute('data-key'));
+
+    let identifier = `${pizzaJson[modalKey].id}@${sizePizza}`;
+
+    key = cart.findIndex((item)=>item.identifier == identifier);
+
+    if (key > -1) {
+        cart[key].qt += modalQt;
+    } else {
+    cart.push({
+        identifier,
+        id:pizzaJson[modalKey].id,
+        sizePizza,
+        qt:modalQt
+    })};
+
+    closeModal();
+});
