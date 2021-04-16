@@ -118,12 +118,28 @@ c('.pizzaInfo--addButton').addEventListener('click', ()=>{
 });
 /////////////////////////////////////////////////////////////////
 
+c('.menu-openner').addEventListener('click', ()=>{
+    if(cart.length > 0) {
+    c('aside').style.left = '0';
+    }
+})
+
+c('.menu-closer').addEventListener('click', ()=>{
+    c('aside').style.left = '100vw';
+})
+
 //////////////////////UPDATECART///////////////////////////////
 function updateCart() {
+    c('.menu-openner span').innerHTML = cart.length;
+
     if (cart.length > 0) {
     c('aside').classList.add('show');
 
     c('.cart').innerHTML = '';
+
+        let subtotal = 0;
+        let desconto = 0;
+        let total = 0;
 
         for(let i in cart) {
              pizzaItem = pizzaJson.find((item)=>item.id == cart[i].id);
@@ -134,14 +150,14 @@ function updateCart() {
             switch(cart[i].sizePizza) {
                 case 0:
                     pizzaSizeName = 'Pequena'
-                    break
+                    break;
                 case 1:
                     pizzaSizeName = 'Média'
-                    break
+                    break;
                 case 2:
                     pizzaSizeName = 'Grande'
-                    break
-            }
+                    break;
+            };
 
              let pizzaName = `${pizzaItem.name}(${pizzaSizeName})`;
 
@@ -164,10 +180,19 @@ function updateCart() {
 
 
              c('.cart').append(cartItem);
+
+             subtotal = subtotal + pizzaItem.price * cart[i].qt;
+             desconto = desconto + subtotal * 0.1;
+             total = subtotal - desconto;
+
+             c('.subtotal span:last-child').innerHTML = `R$ ${subtotal.toFixed(2)}`;
+             c('.desconto span:last-child').innerHTML = `R$ ${desconto.toFixed(2)}`;
+             c('.total span:last-child').innerHTML = `R$ ${total.toFixed(2)}`;
         }
 
     } else {
-        c('aside').classList.remove('show')
+        c('aside').classList.remove('show');
+        c('aside').style.left = '100vw';
     }
 }
 /////////////////////////////////////////////////////////////
